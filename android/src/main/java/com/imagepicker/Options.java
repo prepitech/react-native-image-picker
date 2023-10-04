@@ -16,6 +16,7 @@ public class Options {
     int durationLimit;
     Boolean useFrontCamera = false;
     String mediaType;
+    String mode;
 
 
     Options(ReadableMap options) {
@@ -23,6 +24,7 @@ public class Options {
         selectionLimit = options.getInt("selectionLimit");
         includeBase64 = options.getBoolean("includeBase64");
         includeExtra = options.getBoolean("includeExtra");
+        mode = options.getString("mode");
 
         String videoQualityString = options.getString("videoQuality");
         if (!TextUtils.isEmpty(videoQualityString) && !videoQualityString.toLowerCase().equals("high")) {

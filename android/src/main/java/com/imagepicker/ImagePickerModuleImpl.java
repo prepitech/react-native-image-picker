@@ -124,44 +124,30 @@ public class ImagePickerModuleImpl implements ActivityEventListener {
         boolean isSingleSelect = selectionLimit == 1;
         boolean isPhoto = this.options.mediaType.equals(mediaTypePhoto);
         boolean isVideo = this.options.mediaType.equals(mediaTypeVideo);
+        boolean isModal = this.options.mode.equals("modal");
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            if (isSingleSelect && (isPhoto || isVideo)) {
-                libraryIntent = new Intent(Intent.ACTION_PICK);
-            } else {
-                libraryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                libraryIntent.addCategory(Intent.CATEGORY_OPENABLE);
-            }
+        if (isModal) {
+          libraryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         } else {
-            libraryIntent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+          libraryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         }
 
-        if (!isSingleSelect) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                libraryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            } else {
-                if (selectionLimit != 1) {
-                    int maxNum = selectionLimit;
-                    if (selectionLimit == 0) maxNum = MediaStore.getPickImagesMaxLimit();
-                    libraryIntent.putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, maxNum);
-                }
-            }
-        }
+        if (!isSingleSelect) libraryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 
         if (isPhoto) {
-            libraryIntent.setType("image/*");
+          libraryIntent.setType("image/*");
         } else if (isVideo) {
-            libraryIntent.setType("video/*");
+          libraryIntent.setType("video/*");
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            libraryIntent.setType("*/*");
-            libraryIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*", "video/*"});
+          libraryIntent.setType("*/*");
+          libraryIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*", "video/*"});
         }
 
         try {
-            currentActivity.startActivityForResult(libraryIntent, requestCode);
+          currentActivity.startActivityForResult(libraryIntent, requestCode);
         } catch (ActivityNotFoundException e) {
-            callback.invoke(getErrorMap(errOthers, e.getMessage()));
-            this.callback = null;
+          callback.invoke(getErrorMap(errOthers, e.getMessage()));
+          this.callback = null;
         }
     }
 

@@ -25,6 +25,7 @@ export interface OptionsCommon {
 
 export interface ImageLibraryOptions extends OptionsCommon {
   selectionLimit?: number;
+  mode: 'modal' | 'default';
 }
 
 export interface CameraOptions extends OptionsCommon {

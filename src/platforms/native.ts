@@ -21,6 +21,7 @@ const DEFAULT_OPTIONS: ImageLibraryOptions & CameraOptions = {
   includeExtra: false,
   presentationStyle: 'pageSheet',
   assetRepresentationMode: 'auto',
+  mode: 'default'
 };
 
 // @ts-ignore We want to check whether __turboModuleProxy exitst, it may not

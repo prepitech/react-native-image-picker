@@ -7,12 +7,12 @@ import {
 export * from './types';
 
 export function launchCamera(options: CameraOptions, callback?: Callback) {
-  nativeCamera(options, callback);
+  return nativeCamera(options, callback);
 }
 
 export function launchImageLibrary(
   options: ImageLibraryOptions,
   callback?: Callback,
 ) {
-    nativeImageLibrary(options, callback);
+  return nativeImageLibrary(options, callback);
 }
